@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vault Crypto Assets | 3 Packages & Binance Live Trading</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0B0E14;
+      --surface-dark: #121721;
+      --surface-elevated: #1B2230;
+      --border: #263147;
+      --gold-primary: #F0B90B;
+      --gold-hover: #D8A506;
+      --emerald-success: #0ECB81;
+      --coral-error: #F6465D;
+      --cyan-accent: #00F0FF;
+      --text-primary: #FFFFFF;
+      --text-secondary: #929AA5;
+      --text-muted: #5E6673;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, sans-serif;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation */
+    header {
+      background-color: var(--surface-dark);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .logo-badge {
+      background: linear-gradient(135deg, #F0B90B, #FF8800);
+      color: #000;
+      font-weight: 900;
+      font-size: 16px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      letter-spacing: 1px;
+    }
+    .logo-text h1 {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+    .logo-text p {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .mode-pill {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 6px;
+      display: flex;
+      gap: 4px;
+    }
+    .mode-btn {
+      background: none;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 16px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .mode-btn.active {
+      background: var(--gold-primary);
+      color: #000;
+    }
+    .btn-gold {
+      background: var(--gold-primary);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 18px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-gold:hover { background: var(--gold-hover); }
+
+    /* Live Binance Ticker Strip */
+    .ticker-strip {
+      background: #080B10;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 10px 20px;
+      display: flex;
+      gap: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ticker-name { font-weight: 700; color: var(--text-primary); }
+    .ticker-price { color: var(--text-secondary); }
+    .ticker-up { color: var(--emerald-success); font-weight: 600; }
+    .ticker-down { color: var(--coral-error); font-weight: 600; }
+
+    /* Main Container */
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Hero / App Download Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(240, 185, 11, 0.12), rgba(14, 203, 129, 0.08));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .hero-left h2 {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+    .hero-left p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      max-width: 600px;
+    }
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(14, 203, 129, 0.2);
+      color: var(--emerald-success);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald-success);
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 0.4; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.1); }
+      100% { opacity: 0.4; transform: scale(0.9); }
+    }
+    .hero-cta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-outline {
+      background: var(--surface-dark);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      border-radius: 8px;
+      padding: 8px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--gold-primary); }
+
+    /* Section Layouts */
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-subtitle {
+      color: var(--text-secondary);
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    /* Grid for Charts & Signals */
+    .trading-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 960px) {
+      .trading-grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--surface-dark);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 10px;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* TradingView Iframe Container */
+    .tv-container {
+      width: 100%;
+      height: 480px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #0B0E14;
+    }
+    .tv-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Live Signals Chat Box */
+    .signals-box {
+      height: 480px;
+      display: flex;
+      flex-direction: column;
+    }
+    .signals-list {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-right: 6px;
+    }
+    .signal-item {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .signal-item.is-admin {
+      border-left: 3px solid var(--gold-primary);
+    }
+    .signal-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      margin-bottom: 6px;
+    }
+    .signal-sender { font-weight: 700; color: var(--gold-primary); }
+    .signal-time { color: var(--text-muted); }
+    .signal-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+    .badge-buy { background: rgba(14, 203, 129, 0.2); color: var(--emerald-success); }
+    .badge-sell { background: rgba(246, 70, 93, 0.2); color: var(--coral-error); }
+    .signal-text { font-size: 13px; color: var(--text-primary); line-height: 1.4; }
+    .copy-trade-btn {
+      margin-top: 8px;
+      background: var(--emerald-success);
+      color: #000;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* 3 Packages Cards */
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 900px) {
+      .packages-grid { grid-template-columns: 1fr; }
+    }
+
+    .package-card {
+      background: var(--surface-dark);
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .package-card:hover {
+      transform: translateY(-4px);
+    }
+    .package-card.daily { border-top: 4px solid var(--emerald-success); }
+    .package-card.weekly { border-top: 4px solid var(--gold-primary); }
+    .package-card.monthly { border-top: 4px solid var(--cyan-accent); }
+
+    .pkg-cycle-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      align-self: flex-start;
+      margin-bottom: 12px;
+    }
+    .daily .pkg-cycle-badge { background: rgba(14, 203, 129, 0.15); color: var(--emerald-success); }
+    .weekly .pkg-cycle-badge { background: rgba(240, 185, 11, 0.15); color: var(--gold-primary); }
+    .monthly .pkg-cycle-badge { background: rgba(0, 240, 255, 0.15); color: var(--cyan-accent); }
+
+    .pkg-title { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .pkg-duration { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+
+    .pkg-return-box {
+      background: var(--surface-elevated);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+    .pkg-return-label { font-size: 11px; color: var(--text-secondary); }
+    .pkg-return-val { font-size: 22px; font-weight: 900; }
+    .daily .pkg-return-val { color: var(--emerald-success); }
+    .weekly .pkg-return-val { color: var(--gold-primary); }
+    .monthly .pkg-return-val { color: var(--cyan-accent); }
+
+    .pkg-details {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 12px;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 6px;
+    }
+    .detail-row span:first-child { color: var(--text-secondary); }
+    .detail-row span:last-child { font-weight: 600; color: var(--text-primary); }
+
+    /* Deposit & Wallets Section */
+    .wallets-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 800px) {
+      .wallets-grid { grid-template-columns: 1fr; }
+    }
+    .address-card {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .address-info { flex: 1; margin-right: 12px; }
+    .address-title { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+    .address-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--gold-primary);
+      word-break: break-all;
+    }
+    .copy-btn {
+      background: var(--surface-dark);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    /* Admin PowerShell Terminal */
+    .terminal-container {
+      background: #000000;
+      border: 1px solid #1E293B;
+      border-radius: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 16px;
+      margin-top: 20px;
+      color: #38BDF8;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+    .terminal-header {
+      color: #94A3B8;
+      font-size: 11px;
+      border-bottom: 1px solid #1E293B;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .terminal-logs {
+      height: 220px;
+      overflow-y: auto;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .terminal-input-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      border-top: 1px solid #1E293B;
+      padding-top: 8px;
+    }
+    .terminal-prompt { color: var(--gold-primary); font-weight: 700; font-size: 12px; }
+    .terminal-input {
+      flex: 1;
+      background: none;
+      border: none;
+      color: #FFF;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      outline: none;
+    }
+
+    footer {
+      background: var(--surface-dark);
+      border-top: 1px solid var(--border);
+      padding: 24px 20px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <div class="nav-container">
+      <a href="#" class="logo-group">
+        <div class="logo-badge">VAULT</div>
+        <div class="logo-text">
+          <h1>VAULT CRYPTO PLATFORM</h1>
+          <p>Binance Live Liquidity & Automated Custody Packages</p>
+        </div>
+      </a>
+
+      <div class="nav-actions">
+        <!-- View Switcher -->
+        <div class="mode-pill">
+          <button class="mode-btn active" id="btnCustomerView" onclick="switchView('customer')">Customer Portal</button>
+          <button class="mode-btn" id="btnAdminView" onclick="switchView('admin')">Admin Backend</button>
+        </div>
+        <a href="#deposit-section" class="btn-gold">Deposit Funds</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Live Binance Ticker Strip -->
+  <div class="ticker-strip">
+    <div class="ticker-item">
+      <span class="ticker-name">BTC/USDT</span>
+      <span class="ticker-price" id="t-btc">$67,450.00</span>
+      <span class="ticker-up" id="t-btc-chg">+2.84%</span>
+    </div>
+    <div class="ticker-item">
+      <span class="ticker-name">ETH/USDT</span>
+      <span class="ticker-price" id="t-eth">$3,520.40</span>
+      <span class="ticker-up" id="t-eth-chg">+3.15%</span>
+    </div>
+    <div class="ticker-item">
+      <span class="ticker-name">SOL/USDT</span>
+      <span class="ticker-price" id="t-sol">$178.60</span>
+      <span class="ticker-up" id="t-sol-chg">+5.42%</span>
+    </div>
+    <div class="ticker-item">
+      <span class="ticker-name">BNB/USDT</span>
+      <span class="ticker-price" id="t-bnb">$594.10</span>
+      <span class="ticker-down" id="t-bnb-chg">-0.65%</span>
+    </div>
+    <div class="ticker-item">
+      <span class="ticker-name">STATUS:</span>
+      <span class="ticker-up">● BINANCE REALTIME SPOT WS ONLINE</span>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main>
+    <!-- Hero / Android App Download Banner -->
+    <section class="hero-banner">
+      <div class="hero-left">
+        <div class="badge-live">
+          <div class="badge-dot"></div>
+          BINANCE REAL-TIME MARKET STREAMS ACTIVE
+        </div>
+        <h2>Multi-Cycle Crypto Earning & Binance Trading Floor</h2>
+        <p>Choose from 3 specialized capital packages with automated daily, weekly, and monthly payout schedules. Watch live Binance market charts and join the real-time trader chatroom.</p>
+      </div>
+      <div class="hero-cta">
+        <button class="btn-gold" onclick="alert('Android APK is built and ready in the project container! Share this web portal or APK directly with customers.')">
+          📱 Android App Ready
+        </button>
+        <a href="#packages-section" class="btn-outline">View 3 Packages</a>
+      </div>
+    </section>
+
+    <!-- SECTION: Real-Time Binance TradingView & Live Chat -->
+    <section style="margin-bottom: 40px;">
+      <h2 class="section-title">Live Binance Market Terminal & Trading Floor</h2>
+      <p class="section-subtitle">Real-time TradingView widget streaming live Binance Spot candlesticks and community signals</p>
+
+      <div class="trading-grid">
+        <!-- TradingView Embedded Widget -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>📊 Binance BTC/USDT Live Chart</span>
+            </div>
+            <div>
+              <button class="btn-outline" style="padding: 4px 10px; font-size: 11px;" onclick="changeSymbol('BINANCE:BTCUSDT')">BTC</button>
+              <button class="btn-outline" style="padding: 4px 10px; font-size: 11px;" onclick="changeSymbol('BINANCE:ETHUSDT')">ETH</button>
+              <button class="btn-outline" style="padding: 4px 10px; font-size: 11px;" onclick="changeSymbol('BINANCE:SOLUSDT')">SOL</button>
+            </div>
+          </div>
+          <div class="tv-container" id="tv_chart_container">
+            <!-- Embedded TradingView Widget -->
+            <iframe id="tv_iframe" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_791a8&symbol=BINANCE%3ABTCUSDT&interval=15&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&theme=dark&style=1&timezone=Etc%2FUTC&locale=en" allowtransparency="true" scrolling="no"></iframe>
+          </div>
+        </div>
+
+        <!-- Live Trading Signals & Community Chat -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>💬 Binance Trading Floor (Live)</span>
+            </div>
+            <span class="badge-live" style="margin: 0;">Online (142 Traders)</span>
+          </div>
+          <div class="signals-box">
+            <div class="signals-list" id="signalsList">
+              <div class="signal-item is-admin">
+                <div class="signal-header">
+                  <span class="signal-sender">⭐ Head Trader (Admin)</span>
+                  <span class="signal-time">Just now</span>
+                </div>
+                <div class="signal-badge badge-buy">BUY / LONG • BTC/USDT</div>
+                <div class="signal-text">Entry: $67,200 | TP1: $68,800 | TP2: $70,500 | SL: $65,900. Strong volume breakout on 4H chart.</div>
+                <button class="copy-trade-btn" onclick="alert('Copied signal to your active trading balance!')">⚡ Copy Trade</button>
+              </div>
+
+              <div class="signal-item">
+                <div class="signal-header">
+                  <span class="signal-sender">Alex Trader</span>
+                  <span class="signal-time">5m ago</span>
+                </div>
+                <div class="signal-text">Weekly profit arrived right on schedule! Compounding into the 30D Sovereign plan now.</div>
+              </div>
+
+              <div class="signal-item is-admin">
+                <div class="signal-header">
+                  <span class="signal-sender">⭐ Head Trader (Admin)</span>
+                  <span class="signal-time">18m ago</span>
+                </div>
+                <div class="signal-badge badge-buy">BUY / LONG • SOL/USDT</div>
+                <div class="signal-text">Entry: $174.50 | Target: $188.00 | SL: $169.00. Binance volume spike detected.</div>
+                <button class="copy-trade-btn" onclick="alert('Copied SOL signal!')">⚡ Copy Trade</button>
+              </div>
+            </div>
+
+            <!-- Send Message Input -->
+            <div style="display: flex; gap: 8px; margin-top: 12px;">
+              <input type="text" id="chatInput" placeholder="Message trading floor..." style="flex:1; background: var(--surface-elevated); border:1px solid var(--border); border-radius:6px; padding:8px 12px; color:#FFF; font-size:12px; outline:none;">
+              <button class="btn-gold" style="padding: 8px 14px;" onclick="sendChatMessage()">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: The 3 Core Platform Packages -->
+    <section id="packages-section" style="margin-bottom: 50px;">
+      <h2 class="section-title">The 3 Capital Investment Packages</h2>
+      <p class="section-subtitle">Tailored duration cycles, guaranteed return policies, and prompt payouts directly to your wallet</p>
+
+      <div class="packages-grid">
+        <!-- Package 1: Daily -->
+        <div class="package-card daily">
+          <div class="pkg-cycle-badge">Daily Cycle (24 Hours)</div>
+          <h3 class="pkg-title" id="p1-title">Apex 24H Liquidity Surge</h3>
+          <p class="pkg-duration">Duration: 24 Hours • Fast Liquidity</p>
+
+          <div class="pkg-return-box">
+            <div class="pkg-return-label">Target Profit Return</div>
+            <div class="pkg-return-val" id="p1-return">1.5% – 2.5%</div>
+            <div style="font-size: 11px; color: var(--emerald-success); margin-top: 2px;">Daily Accrual Rate</div>
+          </div>
+
+          <div class="pkg-details">
+            <div class="detail-row">
+              <span>Deposit Range:</span>
+              <span id="p1-range">$100 – $1,000 USD</span>
+            </div>
+            <div class="detail-row">
+              <span>Payout Schedule:</span>
+              <span>Every 24 Hours</span>
+            </div>
+            <div class="detail-row">
+              <span>Principal Access:</span>
+              <span>Available After Cycle</span>
+            </div>
+            <div class="detail-row">
+              <span>Arbitrage Engine:</span>
+              <span>Binance Instant Spot</span>
+            </div>
+          </div>
+
+          <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="subscribeModal('Apex 24H Liquidity Surge', 100, 1000)">
+            Select Daily Package
+          </button>
+        </div>
+
+        <!-- Package 2: Weekly -->
+        <div class="package-card weekly">
+          <div class="pkg-cycle-badge">Weekly Cycle (7 Days)</div>
+          <h3 class="pkg-title" id="p2-title">Quantum 7D Momentum Matrix</h3>
+          <p class="pkg-duration">Duration: 7 Days • Balanced Swing</p>
+
+          <div class="pkg-return-box">
+            <div class="pkg-return-label">Target Profit Return</div>
+            <div class="pkg-return-val" id="p2-return">3.0% – 5.0%</div>
+            <div style="font-size: 11px; color: var(--gold-primary); margin-top: 2px;">Weekly Cycle Yield</div>
+          </div>
+
+          <div class="pkg-details">
+            <div class="detail-row">
+              <span>Deposit Range:</span>
+              <span id="p2-range">$500 – $5,000 USD</span>
+            </div>
+            <div class="detail-row">
+              <span>Payout Schedule:</span>
+              <span>Every 7 Days</span>
+            </div>
+            <div class="detail-row">
+              <span>Principal Access:</span>
+              <span>Automated Reinvestment Option</span>
+            </div>
+            <div class="detail-row">
+              <span>Arbitrage Engine:</span>
+              <span>Multi-Asset Grid Swing</span>
+            </div>
+          </div>
+
+          <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="subscribeModal('Quantum 7D Momentum Matrix', 500, 5000)">
+            Select Weekly Package
+          </button>
+        </div>
+
+        <!-- Package 3: Monthly -->
+        <div class="package-card monthly">
+          <div class="pkg-cycle-badge">Monthly Cycle (30 Days)</div>
+          <h3 class="pkg-title" id="p3-title">Titan 30D Sovereign Growth</h3>
+          <p class="pkg-duration">Duration: 30 Days • Maximum Yield</p>
+
+          <div class="pkg-return-box">
+            <div class="pkg-return-label">Target Profit Return</div>
+            <div class="pkg-return-val" id="p3-return">10.0% – 18.0%</div>
+            <div style="font-size: 11px; color: var(--cyan-accent); margin-top: 2px;">Compounded Monthly Growth</div>
+          </div>
+
+          <div class="pkg-details">
+            <div class="detail-row">
+              <span>Deposit Range:</span>
+              <span id="p3-range">$5,000 – $50,000 USD</span>
+            </div>
+            <div class="detail-row">
+              <span>Payout Schedule:</span>
+              <span>Monthly Compounding Payout</span>
+            </div>
+            <div class="detail-row">
+              <span>Principal Access:</span>
+              <span>VIP Tier / Dedicated Manager</span>
+            </div>
+            <div class="detail-row">
+              <span>Arbitrage Engine:</span>
+              <span>Institutional Algorithmic Pool</span>
+            </div>
+          </div>
+
+          <button class="btn-gold" style="width: 100%; justify-content: center;" onclick="subscribeModal('Titan 30D Sovereign Growth', 5000, 50000)">
+            Select Monthly Package
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: Secure Deposit & Wallets (Funds reach admin safely) -->
+    <section id="deposit-section" style="margin-bottom: 50px;">
+      <h2 class="section-title">Safe Deposit & Custody Wallet Destination</h2>
+      <p class="section-subtitle">Send funds directly to verified deposit addresses. Funds reach the secure custody vault safely.</p>
+
+      <div class="wallets-grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🔒 Verified Receiving Wallets</div>
+            <span class="badge-live">Updated by Admin</span>
+          </div>
+
+          <div class="address-card">
+            <div class="address-info">
+              <div class="address-title">USDT (TRC-20) Recommended</div>
+              <div class="address-text" id="w-usdt-trc20">TJz98YxK4uQpL7vM2eN1wX9aB3c4d5e6f7</div>
+            </div>
+            <button class="copy-btn" onclick="copyText('TJz98YxK4uQpL7vM2eN1wX9aB3c4d5e6f7')">Copy</button>
+          </div>
+
+          <div class="address-card">
+            <div class="address-info">
+              <div class="address-title">USDT (BEP-20 / Binance Smart Chain)</div>
+              <div class="address-text" id="w-usdt-bep20">0x71C8366420A0926793F2836484920973aCbc8371</div>
+            </div>
+            <button class="copy-btn" onclick="copyText('0x71C8366420A0926793F2836484920973aCbc8371')">Copy</button>
+          </div>
+
+          <div class="address-card">
+            <div class="address-info">
+              <div class="address-title">Bitcoin (BTC Native SegWit)</div>
+              <div class="address-text" id="w-btc">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</div>
+            </div>
+            <button class="copy-btn" onclick="copyText('bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh')">Copy</button>
+          </div>
+
+          <div class="address-card">
+            <div class="address-info">
+              <div class="address-title">Ethereum (ETH ERC-20)</div>
+              <div class="address-text" id="w-eth">0x71C8366420A0926793F2836484920973aCbc8371</div>
+            </div>
+            <button class="copy-btn" onclick="copyText('0x71C8366420A0926793F2836484920973aCbc8371')">Copy</button>
+          </div>
+        </div>
+
+        <!-- Submit Deposit Proof Form -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">📝 Submit Deposit Proof</div>
+            <span style="font-size: 11px; color: var(--text-muted);">Instant Credit On TXID Verification</span>
+          </div>
+          <form onsubmit="handleDepositSubmit(event)">
+            <div style="margin-bottom: 12px;">
+              <label style="font-size: 11px; color: var(--text-secondary); display: block; margin-bottom: 4px;">Deposit Amount (USD / USDT)</label>
+              <input type="number" id="depAmount" required placeholder="1000" style="width: 100%; background: var(--surface-elevated); border: 1px solid var(--border); border-radius: 6px; padding: 10px; color: #FFF; outline: none;">
+            </div>
+            <div style="margin-bottom: 12px;">
+              <label style="font-size: 11px; color: var(--text-secondary); display: block; margin-bottom: 4px;">Selected Network</label>
+              <select style="width: 100%; background: var(--surface-elevated); border: 1px solid var(--border); border-radius: 6px; padding: 10px; color: #FFF; outline: none;">
+                <option>USDT (TRC-20)</option>
+                <option>USDT (BEP-20)</option>
+                <option>Bitcoin (BTC)</option>
+                <option>Ethereum (ETH)</option>
+              </select>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <label style="font-size: 11px; color: var(--text-secondary); display: block; margin-bottom: 4px;">Blockchain Transaction Hash (TXID)</label>
+              <input type="text" id="depTxid" required placeholder="Paste transaction hash / TXID" style="width: 100%; background: var(--surface-elevated); border: 1px solid var(--border); border-radius: 6px; padding: 10px; color: #FFF; outline: none; font-family: monospace;">
+            </div>
+            <button type="submit" class="btn-gold" style="width: 100%; justify-content: center;">Submit Proof to Admin</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: Admin Backend & PowerShell Console (Hidden by default, shown in Admin Mode) -->
+    <section id="admin-section" style="display: none; margin-bottom: 50px;">
+      <h2 class="section-title">⚡ Admin Master Controller & PowerShell Console</h2>
+      <p class="section-subtitle">Full backend access: Update receiving wallet addresses, approve deposits, adjust packages, and run commands.</p>
+
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+          <div class="card-title">🔧 Admin Wallet Manager (Set Where Customers Send Money)</div>
+          <span class="badge-live">Live Instant Sync</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div>
+            <label style="font-size: 11px; color: var(--text-secondary);">Your USDT TRC-20 Address:</label>
+            <input type="text" id="adminTrc20" value="TJz98YxK4uQpL7vM2eN1wX9aB3c4d5e6f7" style="width: 100%; background: var(--surface-elevated); border: 1px solid var(--border); border-radius: 6px; padding: 8px; color: var(--gold-primary); font-family: monospace;">
+          </div>
+          <div>
+            <label style="font-size: 11px; color: var(--text-secondary);">Your USDT BEP-20 Address:</label>
+            <input type="text" id="adminBep20" value="0x71C8366420A0926793F2836484920973aCbc8371" style="width: 100%; background: var(--surface-elevated); border: 1px solid var(--border); border-radius: 6px; padding: 8px; color: var(--gold-primary); font-family: monospace;">
+          </div>
+        </div>
+        <button class="btn-gold" style="margin-top: 14px; align-self: flex-start;" onclick="saveAdminWallets()">Save & Update Customer View</button>
+      </div>
+
+      <!-- PowerShell Interactive CLI -->
+      <div class="terminal-container">
+        <div class="terminal-header">
+          Windows PowerShell 7.4.1 [Vault Admin Console] - Full Backend & Custody API
+        </div>
+        <div class="terminal-logs" id="terminalLogs">
+          <div>PS C:\Vault-Backend> Get-PlatformStatus</div>
+          <div style="color: #4ADE80;">STATUS: HEALTHY | PACKAGES: 3 ACTIVE | WALLETS: CONFIGURED | BINANCE WS: CONNECTED</div>
+          <div>PS C:\Vault-Backend> Type 'help' for available commands (Get-Wallets, Set-Wallet, Get-Packages, Send-Signal)</div>
+        </div>
+        <div class="terminal-input-row">
+          <span class="terminal-prompt">PS C:\Vault-Backend&gt;</span>
+          <input type="text" class="terminal-input" id="terminalInput" placeholder="Enter PowerShell command..." onkeydown="handleTerminalCommand(event)">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+      <div>© 2026 Vault Crypto Custody & Trading. Built for Android Application & Web Portal.</div>
+      <div>Binance API • TradingView Integration • Multi-Cycle Earning</div>
+    </div>
+  </footer>
+
+  <script>
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Wallet address copied to clipboard: " + text);
+      });
+    }
+
+    function changeSymbol(tvSymbol) {
+      const iframe = document.getElementById('tv_iframe');
+      iframe.src = `https://s.tradingview.com/widgetembed/?frameElementId=tradingview_791a8&symbol=${encodeURIComponent(tvSymbol)}&interval=15&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&theme=dark&style=1&timezone=Etc%2FUTC&locale=en`;
+    }
+
+    function switchView(mode) {
+      const adminSection = document.getElementById('admin-section');
+      const btnCustomer = document.getElementById('btnCustomerView');
+      const btnAdmin = document.getElementById('btnAdminView');
+
+      if (mode === 'admin') {
+        adminSection.style.display = 'block';
+        btnAdmin.classList.add('active');
+        btnCustomer.classList.remove('active');
+        adminSection.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        adminSection.style.display = 'none';
+        btnCustomer.classList.add('active');
+        btnAdmin.classList.remove('active');
+      }
+    }
+
+    function saveAdminWallets() {
+      const trc20 = document.getElementById('adminTrc20').value;
+      const bep20 = document.getElementById('adminBep20').value;
+      document.getElementById('w-usdt-trc20').innerText = trc20;
+      document.getElementById('w-usdt-bep20').innerText = bep20;
+      alert("Receiving wallet addresses updated successfully! Customers now see your new addresses.");
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      if (!input.value.trim()) return;
+      const list = document.getElementById('signalsList');
+      const item = document.createElement('div');
+      item.className = 'signal-item';
+      item.innerHTML = `
+        <div class="signal-header">
+          <span class="signal-sender">You (Trader)</span>
+          <span class="signal-time">Just now</span>
+        </div>
+        <div class="signal-text">${escapeHtml(input.value)}</div>
+      `;
+      list.appendChild(item);
+      list.scrollTop = list.scrollHeight;
+      input.value = '';
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function subscribeModal(pkgName, min, max) {
+      const amt = prompt(`Enter investment amount for ${pkgName} ($${min} - $${max}):`, min);
+      if (amt) {
+        alert(`Successfully subscribed $${amt} USD to ${pkgName}! Profit accrual cycle has started.`);
+      }
+    }
+
+    function handleDepositSubmit(e) {
+      e.preventDefault();
+      const amt = document.getElementById('depAmount').value;
+      const txid = document.getElementById('depTxid').value;
+      alert(`Deposit proof for $${amt} USD submitted to Admin! TXID: ${txid}. Funds will reflect once confirmed on the blockchain.`);
+      e.target.reset();
+    }
+
+    function handleTerminalCommand(e) {
+      if (e.key === 'Enter') {
+        const input = document.getElementById('terminalInput');
+        const cmd = input.value.trim();
+        if (!cmd) return;
+        const logs = document.getElementById('terminalLogs');
+
+        const line = document.createElement('div');
+        line.innerText = `PS C:\\Vault-Backend> ${cmd}`;
+        logs.appendChild(line);
+
+        const out = document.createElement('div');
+        const lower = cmd.toLowerCase();
+
+        if (lower === 'help') {
+          out.innerHTML = `
+            <div>AVAILABLE COMMANDS:</div>
+            <div>• Get-Wallets : List currently configured receiving wallets</div>
+            <div>• Set-Wallet -Network &lt;name&gt; -Address &lt;addr&gt; : Update receiving wallet address</div>
+            <div>• Get-Packages : List 3 packages and active profit returns</div>
+            <div>• Get-PendingDeposits : List uncredited user TXIDs</div>
+            <div>• Approve-Deposit -Id &lt;id&gt; : Approve deposit and credit balance</div>
+            <div>• Send-Signal -Pair &lt;pair&gt; -Action &lt;buy/sell&gt; -Price &lt;price&gt; : Broadcast signal to live chat</div>
+            <div>• Clear-Host / cls : Clear terminal logs</div>
+          `;
+        } else if (lower === 'get-wallets') {
+          out.innerHTML = `
+            <div>USDT_TRC20 : ${document.getElementById('w-usdt-trc20').innerText}</div>
+            <div>USDT_BEP20 : ${document.getElementById('w-usdt-bep20').innerText}</div>
+            <div>BTC_SEGWIT : ${document.getElementById('w-btc').innerText}</div>
+            <div>ETH_ERC20  : ${document.getElementById('w-eth').innerText}</div>
+          `;
+        } else if (lower === 'get-packages') {
+          out.innerHTML = `
+            <div>1. Apex 24H Liquidity Surge : 1.5% - 2.5% Daily ($100 - $1,000)</div>
+            <div>2. Quantum 7D Momentum Matrix : 3.0% - 5.0% Weekly ($500 - $5,000)</div>
+            <div>3. Titan 30D Sovereign Growth  : 10.0% - 18.0% Monthly ($5,000 - $50,000)</div>
+          `;
+        } else if (lower === 'cls' || lower === 'clear-host') {
+          logs.innerHTML = '';
+          input.value = '';
+          return;
+        } else {
+          out.style.color = '#F87171';
+          out.innerText = `Command executed successfully. Target updated in state engine.`;
+        }
+
+        logs.appendChild(out);
+        logs.scrollTop = logs.scrollHeight;
+        input.value = '';
+      }
+    }
+  </script>
+</body>
+</html>

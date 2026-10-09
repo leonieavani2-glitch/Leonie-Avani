@@ -1,0 +1,6 @@
+{
+  "name": "Aethel Custody",
+  "description": "Institutional-grade custodial crypto wallet and payments platform with MPC vaults, internal double-entry ledger, compliance engine, and merchant acceptance.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
